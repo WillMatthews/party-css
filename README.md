@@ -1,9 +1,9 @@
 # party-css
-CSS to party-parrot-ify your frontend. Use wisely.
+I love party parrots. My boss regrettably does not. I made this to try to convert him over to liking them, by partifying the frontend of the product I work on (it didn't work, somehow he hates party parrots even more).
 
-On a basal level, this repo has a `🦜` css class which will make whatever html element its applied to 'party-ified'. 
+On a basal level, this repo has a `🦜` css class which will make whatever html element its applied to 'partified'. It makes HTML elements bob in an oval and change rainbow colours. Neat!
 
-The implementation is pretty simple. It's fundamentally just two animations, a `party` and a `tint`.
+The implementation is very simple. It's fundamentally just two animations, a `party` and a `tint`.
 
 ```css
 .🦜 {
