@@ -7,7 +7,7 @@ The implementation is very simple. It's fundamentally just two animations, a `pa
 
 ```css
 .🦜 {
-  animation: party 0.7s infinite, tint 0.7s infinite;
+  animation: party 0.7s infinite linear, tint 0.7s infinite linear;
   transform-origin: bottom center;
 }
 ```
