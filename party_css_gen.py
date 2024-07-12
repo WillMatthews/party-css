@@ -17,7 +17,7 @@ def generate_root_variables():
 def generate_element_style():
     return """
 .🦜 {
-  animation: party var(--anim-time) infinite, tint var(--anim-time) infinite;
+  animation: party var(--anim-time) infinite linear, tint var(--anim-time) infinite linear;
   transform-origin: bottom center;
 }
 """
