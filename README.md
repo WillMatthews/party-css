@@ -20,6 +20,6 @@ It's not perfect. It could be faster, the X skew could be larger. If you want to
 
 ![parrot](https://cultofthepartyparrot.com/parrots/hd/parrot.gif)
 
-[see it in action on jsfiddle](https://jsfiddle.net/zxgphb4L/13/)
+[see it in action on jsfiddle](https://jsfiddle.net/pg926wh1/1/)
 
 # Party or die!

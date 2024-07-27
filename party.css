@@ -1,8 +1,8 @@
 :root {
-  --max-translation: 0;  /* x pixels */
-  --max-skew: 18;        /* degrees */
+  --max-translation: 0;   /* x pixels */
+  --max-skew: 18;         /* degrees */
   --max-scale-diff: 0.15; /* scale factor */
-  --anim-freq: 2;        /* Hz */
+  --anim-freq: 2;         /* Hz */
   --anim-time: calc(1/var(--anim-freq) * 1s);
 }
 
