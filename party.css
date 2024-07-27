@@ -7,11 +7,11 @@
 }
 
 .🦜 {
-  animation: 🎉 var(--anim-time) infinite linear, tint var(--anim-time) infinite linear;
+  animation: 🎉 var(--anim-time) infinite linear, 🎨 var(--anim-time) infinite linear;
   transform-origin: bottom center;
 }
 
-@keyframes tint {
+@keyframes 🎨 {
   /* colour should tint the parrot, not set the background
   turns out this is a bit more complicated than I thought
   oh well, it's good enough for now to get me fired */

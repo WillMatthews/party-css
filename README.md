@@ -3,16 +3,16 @@ I love party parrots. My boss regrettably does not. I made this to try to conver
 
 On a basal level, this repo has a `🦜` css class which will make whatever html element its applied to 'partified'. It makes HTML elements bob in an oval and change rainbow colours. Neat!
 
-The implementation is very simple. It's fundamentally just two animations, a `🎉` and a `tint`.
+The implementation is very simple. It's fundamentally just two animations, a `🎉` and a `🎨`.
 
 ```css
 .🦜 {
-  animation: 🎉 0.7s infinite linear, tint 0.7s infinite linear;
+  animation: 🎉 0.7s infinite linear, 🎨 0.7s infinite linear;
   transform-origin: bottom center;
 }
 ```
 
-The `tint` animation is responsible for the colour. It was created by manually sampling the [party parrot gif](https://cultofthepartyparrot.com/) at nine eqispaced points. 
+The `🎨` animation is responsible for the colour. It was created by manually sampling the [party parrot gif](https://cultofthepartyparrot.com/) at nine eqispaced points. 
 
 `🎉` on the other hand is responsible for the motion. It is created by `party_skew_gen.py`, which calculates X skew and Y scale components to make a seamless, partyparrot esque monstrosity.
 
