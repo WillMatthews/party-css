@@ -17,7 +17,7 @@ def generate_root_variables():
 def generate_element_style():
     return """
 .🦜 {
-  animation: party var(--anim-time) infinite linear, tint var(--anim-time) infinite linear;
+  animation: 🎉 var(--anim-time) infinite linear, tint var(--anim-time) infinite linear;
   transform-origin: bottom center;
 }
 """
@@ -51,7 +51,7 @@ def generate_css():
     css.append("@keyframes tint {")
     css.append(generate_tint_keyframes())
     css.append("}")
-    css.append("@keyframes party {")
+    css.append("@keyframes 🎉 {")
     css.append(generate_party_keyframes())
     css.append("}")
     return "\n".join(css)

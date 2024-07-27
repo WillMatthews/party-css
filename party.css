@@ -7,7 +7,7 @@
 }
 
 .🦜 {
-  animation: party var(--anim-time) infinite linear, tint var(--anim-time) infinite linear;
+  animation: 🎉 var(--anim-time) infinite linear, tint var(--anim-time) infinite linear;
   transform-origin: bottom center;
 }
 
@@ -25,7 +25,7 @@
   87.5% { background-color: #FFD081; }
 }
 
-@keyframes party {
+@keyframes 🎉 {
   0% { transform: skew(calc(var(--max-skew) * -1deg), 0deg) translateX(calc(var(--max-translation) * 0px)) scaleY(calc(1 + var(--max-scale-diff) * 0)); }
   5% { transform: skew(calc(var(--max-skew) * -0.9511deg), 0deg) translateX(calc(var(--max-translation) * 0.3090px)) scaleY(calc(1 + var(--max-scale-diff) * 0.3090)); }
   10% { transform: skew(calc(var(--max-skew) * -0.8090deg), 0deg) translateX(calc(var(--max-translation) * 0.5878px)) scaleY(calc(1 + var(--max-scale-diff) * 0.5878)); }
