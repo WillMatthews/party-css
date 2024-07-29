@@ -22,4 +22,6 @@ It's not perfect. It could be faster, the X skew could be larger. If you want to
 
 [see it in action on jsfiddle](https://jsfiddle.net/pg926wh1/1/)
 
+![in-action](/doc/party-demo.webp)
+
 # Party or die!
