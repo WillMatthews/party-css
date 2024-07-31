@@ -6,6 +6,7 @@ MINIFY = True
 
 class CSSGenerator:
     def __init__(self):
+        # 🦜 colors can be obtained from extract-colours.py
         self.colors = [
             "#ff8d8b", "#fed689", "#88ff89", "#87ffff", "#8bb5fe",
             "#d78cff", "#ff8cff", "#ff68f7", "#fe6cb7", "#ff6968"
