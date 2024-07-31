@@ -6,6 +6,7 @@ from PIL import Image, ImageSequence
 gif_url = "https://cultofthepartyparrot.com/parrots/hd/parrot.gif"
 
 # Download the 🦜 GIF
+print("Downloading the 🦜...")
 response = requests.get(gif_url)
 gif = Image.open(BytesIO(response.content))
 
@@ -22,4 +23,10 @@ for frame in ImageSequence.Iterator(gif):
             frame_colors.append(first_non_white_color)
 
 hex_colors = ['#%02x%02x%02x' % (r, g, b) for (r, g, b, a) in frame_colors]
-print(hex_colors)
+
+print("🦜 Frame colors:")
+
+for i, color in enumerate(hex_colors):
+    ansiColor = f"\033[38;2;{frame_colors[i][0]};{frame_colors[i][1]};{frame_colors[i][2]}m"
+
+    print (f"{ansiColor}Frame {str(i+1).rjust(2, '0')}: {color}" + "\033[0m")
