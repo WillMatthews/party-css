@@ -2,7 +2,7 @@
 import math
 import argparse
 
-MINIFY = True
+MINIFY = False
 
 class CSSGenerator:
     def __init__(self):
@@ -15,32 +15,32 @@ class CSSGenerator:
         self.minify = MINIFY
 
     def _generate_root_variables(self):
-        return """
-        :root {
-            --max-translation: 0; /* x pixels */
-            --translation-phase: 0; /* degrees */
-            --max-skew: 18; /* degrees */
-            --max-scale-diff: 0.15; /* scale factor */
-            --anim-freq: 2; /* Hz */
-            --anim-time: calc(1/var(--anim-freq) * 1s);
-        }
-        """
+        return """:root {
+  --max-translation: 0;   /* x pixels */
+  --translation-phase: 0; /* radians */
+  --max-skew: 18;         /* degrees */
+  --max-scale-diff: 0.15; /* scale factor */
+  --anim-freq: 2;         /* Hz */
+
+  --anim-time: calc(1/var(--anim-freq) * 1s);
+}
+"""
 
     def _generate_element_style(self):
         return """
-        .🦜 {
-            animation: 🎉 var(--anim-time) infinite linear, 🎨 var(--anim-time) infinite linear;
-            transform-origin: bottom center;
-        }
-        """
+.🦜 {
+  animation: 🎉 var(--anim-time) infinite linear, 🎨 var(--anim-time) infinite linear;
+  transform-origin: bottom center;
+}
+"""
 
     def _generate_tint_keyframes(self):
-        keyframes = ["0%, 100% { background-color: #ff8d8b; }"]
+        keyframes = ["  0%,\n  100% { background-color: #ff8d8b; }"]
         num_colors = len(self.colors)
         pct_step = 100 / (num_colors - 1)
         for i, color in enumerate(self.colors[1:-1], 1):
             keyframes.append(f"{i * pct_step:.2f}% {{ background-color: {color}; }}")
-        return "\n".join(keyframes)
+        return "\n  ".join(keyframes)
 
     def _trunc_number(self, num):
         if self.minify:
@@ -50,7 +50,7 @@ class CSSGenerator:
     def _make_party_keyframe(self, progress, angle):
         skew_x = -math.cos(angle)
         scale_y = math.sin(angle)
-        progress_str = f"{self._trunc_number(f'{progress * 100:.1f}')}%"
+        progress_str = f"  {self._trunc_number(f'{progress * 100:.1f}')}%"
 
         skew_str = ""
         if not math.isclose(skew_x, 0, abs_tol=1e-6) or not self.minify:
@@ -65,7 +65,7 @@ class CSSGenerator:
 
         scale_y_multiplier = self._trunc_number(f"{scale_y:.4f}")
         scale_str = f"scaleY(calc(1 + var(--max-scale-diff) * {scale_y_multiplier}))"
-        if math.isclose(scale_y, 0, abs_tol=1e-6) or not self.minify:
+        if math.isclose(scale_y, 0, abs_tol=1e-6) and self.minify:
             scale_str = f"scaleY(1)"
 
         return f"{progress_str} {{ transform:{skew_str} {translate_str} {scale_str}; }}"
@@ -99,14 +99,14 @@ class CSSGenerator:
 
 def gen_bookmarklet(css_generator):
     bookmarklet = """
-    javascript:(function(){
-        var s = document.createElement('style');
-        s.innerHTML = `
-        <<CSS>>
-        `;
-        document.head.appendChild(s);
-    })();
-    """
+javascript:(function(){
+  var s = document.createElement('style');
+  s.innerHTML = `
+<<CSS>>
+  `;
+  document.head.appendChild(s);
+})();
+"""
     return bookmarklet.replace("<<CSS>>", css_generator.get_css())
 
 def main():
