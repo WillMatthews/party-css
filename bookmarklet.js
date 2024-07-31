@@ -1,3 +1,7 @@
+
+javascript:(function(){
+  var s = document.createElement('style');
+  s.innerHTML = `
 :root {
   --max-translation: 0px;  /* pixels */
   --translation-phase: -3; /* radians */
@@ -155,3 +159,6 @@
     scaleY(calc(1 + var(--max-scale-diff) * -0.0000));
   }
 }
+  `;
+  document.head.appendChild(s);
+})();
