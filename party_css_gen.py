@@ -16,11 +16,11 @@ class CSSGenerator:
 
     def _generate_root_variables(self):
         return """:root {
-  --max-translation: 0;   /* x pixels */
-  --translation-phase: 0; /* radians */
-  --max-skew: 18;         /* degrees */
-  --max-scale-diff: 0.15; /* scale factor */
-  --anim-freq: 2;         /* Hz */
+  --max-translation: 0px;  /* pixels */
+  --translation-phase: -3; /* radians */
+  --max-skew: 18;          /* degrees */
+  --max-scale-diff: 0.15;  /* scale factor */
+  --anim-freq: 2;          /* Hz */
 
   --anim-time: calc(1/var(--anim-freq) * 1s);
 }
@@ -55,12 +55,12 @@ class CSSGenerator:
         skew_str = ""
         if not math.isclose(skew_x, 0, abs_tol=1e-6) or not self.minify:
             skew_multiplier = self._trunc_number(f"{skew_x:.4f}")
-            skew_str = f" skewX(calc(var(--max-skew) * {skew_multiplier}deg))"
+            skew_str = f"skewX(calc(var(--max-skew) * {skew_multiplier}deg))"
 
         translate_angle = self._trunc_number(f"{angle:.4f}")
         translate_str = (
             f"translateX(calc(var(--max-translation) * "
-            f"sin({translate_angle} + var(--translation-phase)) px))"
+            f"sin({translate_angle} + var(--translation-phase))))"
         )
 
         scale_y_multiplier = self._trunc_number(f"{scale_y:.4f}")
@@ -68,7 +68,20 @@ class CSSGenerator:
         if math.isclose(scale_y, 0, abs_tol=1e-6) and self.minify:
             scale_str = f"scaleY(1)"
 
-        return f"{progress_str} {{ transform:{skew_str} {translate_str} {scale_str}; }}"
+        # Example output:
+        #   0% { transform:
+        #     skewX(calc(var(--max-skew) * 0deg))
+        #     translateX(calc(var(--max-translation) * sin(0 + var(--translation-phase))))
+        #     scaleY(1)
+        #   }
+
+        return f"""{progress_str} {{
+    transform:
+    {skew_str}
+    {translate_str}
+    {scale_str};
+  }}"""
+
 
     def _generate_party_keyframes(self, steps=20):
         keyframes = []
@@ -111,19 +124,44 @@ javascript:(function(){
 
 def main():
     parser = argparse.ArgumentParser(description="Generate CSS animations for party effect.")
-    parser.add_argument('-o', '--output', help="Output file path. If not specified, prints to console.")
+    parser.add_argument('-o', '--output', help="Output CSS file path. If not specified, prints to console.")
     parser.add_argument('-b', '--bookmarklet', action='store_true', help="Generate bookmarklet.")
+    parser.add_argument('-a', '--all', action='store_true', help="Generate all CSS, and store to default files.")
+    parser.add_argument('-m', '--minify', action='store_true', help="Minify the CSS.")
     args = parser.parse_args()
 
+    if args.minify:
+        MINIFY = True
+
     css_generator = CSSGenerator()
+
+    if args.all:
+        if args.output:
+            raise ValueError("Cannot specify output file with --all flag.")
+        with open("party.css", 'w') as f:
+            f.write(css_generator.get_css())
+        with open("bookmarklet.js", 'w') as f:
+            f.write(gen_bookmarklet(css_generator))
+        print("CSS written to party.css")
+        print("Bookmarklet written to bookmarklet.js")
+        return
+
+    if args.bookmarklet:
+        file_name = "bookmarklet.js"
+        if args.output:
+            file_name = args.output
+
+        with open(file_name, 'w') as f:
+            f.write(gen_bookmarklet(css_generator))
+        
+        print(f"Bookmarklet written to {file_name}")
+        return
 
     if args.output:
         with open(args.output, 'w') as f:
             f.write(css_generator.get_css())
         print(f"CSS written to {args.output}")
-    elif args.bookmarklet:
-        with open("bookmarklet.js", 'w') as f:
-            f.write(gen_bookmarklet(css_generator))
+
     else:
         print(css_generator.get_css())
 
