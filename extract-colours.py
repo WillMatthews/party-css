@@ -10,7 +10,7 @@ print("Downloading the 🦜...")
 response = requests.get(gif_url)
 gif = Image.open(BytesIO(response.content))
 
-# Extract the first non-white 🦜 color from each 🦜 frame
+# Extract the median 🦜 color from each 🦜 frame
 frame_colors = []
 for frame in ImageSequence.Iterator(gif):
     frame = frame.convert('RGBA')  # Convert frame to RGBA
@@ -19,8 +19,20 @@ for frame in ImageSequence.Iterator(gif):
         # Sort colors by count and exclude white
         non_white_colors = [color for color in sorted(colors, key=lambda x: x[0], reverse=True) if color[1] != (255, 255, 255, 0)]
         if non_white_colors:
-            first_non_white_color = non_white_colors[0][1]
-            frame_colors.append(first_non_white_color)
+            # Calculate median color from all non-white colors weighted by their count
+            total_count = sum(count for count, _ in non_white_colors)
+            cumulative_count = 0
+            median_threshold = total_count / 2
+            
+            # Find the median color by cumulative count
+            median_color = non_white_colors[0][1]
+            for count, color in non_white_colors:
+                cumulative_count += count
+                if cumulative_count >= median_threshold:
+                    median_color = color
+                    break
+            
+            frame_colors.append(median_color)
 
 hex_colors = ['#%02x%02x%02x' % (r, g, b) for (r, g, b, a) in frame_colors]
 
